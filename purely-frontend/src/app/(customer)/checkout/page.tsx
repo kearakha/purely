@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Input } from '@/components/ui/Input';
-import { Loading } from '@/components/ui/Loading';
-import { AddressCard } from '@/components/address/AddressCard';
-import { AddressForm } from '@/components/address/AddressForm';
-import { AddressList } from '@/components/address/AddressList';
-import { useAddress } from '@/hooks/useAddress';
-import { useAuth } from '@/hooks/useAuth';
-import { useCart } from '@/hooks/useCart';
-import { ordersApi } from '@/lib/api/orders';
-import { formatCurrency } from '@/lib/utils/formatters';
-import { Address } from '@/types/address';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Loading } from "@/components/ui/Loading";
+import { AddressCard } from "@/components/address/AddressCard";
+import { AddressForm } from "@/components/address/AddressForm";
+import { AddressList } from "@/components/address/AddressList";
+import { useAddress } from "@/hooks/useAddress";
+import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
+import { ordersApi } from "@/lib/api/orders";
+import { formatCurrency } from "@/lib/utils/formatters";
+import { Address } from "@/types/address";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
-type PaymentMethod = 'cod' | 'transfer' | 'ewallet';
+type PaymentMethod = "cod" | "transfer" | "ewallet";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -39,14 +39,14 @@ export default function CheckoutPage() {
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
 
   const [formData, setFormData] = useState({
-    delivery_notes: '',
-    payment_method: 'cod' as PaymentMethod,
+    delivery_notes: "",
+    payment_method: "cod" as PaymentMethod,
   });
 
   useEffect(() => {
     if (!cartLoading && (!cart || cart.items.length === 0)) {
-      toast.error('Keranjang kosong');
-      router.push('/cart');
+      toast.error("Keranjang kosong");
+      router.push("/cart");
     }
   }, [cart, cartLoading, router]);
 
@@ -81,7 +81,7 @@ export default function CheckoutPage() {
     e.preventDefault();
 
     if (!selectedAddress) {
-      toast.error('Silakan pilih alamat pengiriman');
+      toast.error("Silakan pilih alamat pengiriman");
       return;
     }
 
@@ -94,11 +94,11 @@ export default function CheckoutPage() {
       };
 
       const order = await ordersApi.create(orderPayload);
-      toast.success('Pesanan berhasil dibuat!');
+      toast.success("Pesanan berhasil dibuat!");
       router.push(`/orders/${order.id}`);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Gagal membuat pesanan');
+      toast.error(error.response?.data?.message || "Gagal membuat pesanan");
     } finally {
       setLoading(false);
     }
@@ -116,22 +116,22 @@ export default function CheckoutPage() {
 
   const paymentMethods = [
     {
-      id: 'cod',
-      name: 'Cash on Delivery (COD)',
-      description: 'Bayar saat barang diterima',
-      icon: '💵',
+      id: "cod",
+      name: "Cash on Delivery (COD)",
+      description: "Bayar saat barang diterima",
+      icon: "💵",
     },
     {
-      id: 'transfer',
-      name: 'Transfer Bank',
-      description: 'Transfer ke rekening toko',
-      icon: '🏦',
+      id: "transfer",
+      name: "Transfer Bank",
+      description: "Transfer ke rekening toko",
+      icon: "🏦",
     },
     {
-      id: 'ewallet',
-      name: 'E-Wallet',
-      description: 'OVO, GoPay, Dana, dll',
-      icon: '📱',
+      id: "ewallet",
+      name: "E-Wallet",
+      description: "OVO, GoPay, Dana, dll",
+      icon: "📱",
     },
   ];
 
@@ -158,7 +158,7 @@ export default function CheckoutPage() {
                   size="sm"
                   onClick={() => setShowAddressModal(true)}
                 >
-                  {selectedAddress ? 'Ganti Alamat' : 'Pilih Alamat'}
+                  {selectedAddress ? "Ganti Alamat" : "Pilih Alamat"}
                 </Button>
               </div>
 
@@ -206,8 +206,8 @@ export default function CheckoutPage() {
                     key={method.id}
                     className={`flex items-start p-4 border-2 rounded-lg cursor-pointer transition-colors ${
                       formData.payment_method === method.id
-                        ? 'border-primary-600 bg-primary-50'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? "border-primary-600 bg-primary-50"
+                        : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
                     <input
@@ -230,7 +230,9 @@ export default function CheckoutPage() {
                           {method.name}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600">{method.description}</p>
+                      <p className="text-sm text-gray-600">
+                        {method.description}
+                      </p>
                     </div>
                   </label>
                 ))}
@@ -246,7 +248,7 @@ export default function CheckoutPage() {
                 {cart.items.map((item) => (
                   <div key={item.id} className="flex items-center gap-3">
                     <div className="w-16 h-16 bg-gray-100 rounded-lg shrink-0 relative overflow-hidden">
-                       {/* Image placeholder or component if available */}
+                      {/* Image placeholder or component if available */}
                     </div>
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-gray-900 truncate">
@@ -275,16 +277,22 @@ export default function CheckoutPage() {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal ({cart.total_items} item)</span>
-                  <span className="font-medium">{formatCurrency(subtotal)}</span>
+                  <span className="font-medium">
+                    {formatCurrency(subtotal)}
+                  </span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Biaya Pengiriman</span>
-                  <span className="font-medium">{formatCurrency(deliveryFee)}</span>
+                  <span className="font-medium">
+                    {formatCurrency(deliveryFee)}
+                  </span>
                 </div>
                 <div className="border-t border-gray-200 pt-3">
                   <div className="flex justify-between text-lg font-bold">
                     <span className="text-gray-900">Total Pembayaran</span>
-                    <span className="text-primary-600">{formatCurrency(total)}</span>
+                    <span className="text-primary-600">
+                      {formatCurrency(total)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -310,9 +318,9 @@ export default function CheckoutPage() {
               <h2 className="text-lg font-bold">
                 {showAddressForm
                   ? editingAddress
-                    ? 'Ubah Alamat'
-                    : 'Tambah Alamat Baru'
-                  : 'Pilih Alamat Pengiriman'}
+                    ? "Ubah Alamat"
+                    : "Tambah Alamat Baru"
+                  : "Pilih Alamat Pengiriman"}
               </h2>
               <button
                 onClick={() => {
@@ -325,7 +333,7 @@ export default function CheckoutPage() {
                 ✕
               </button>
             </div>
-            
+
             <div className="p-4 overflow-y-auto">
               {showAddressForm ? (
                 <AddressForm
@@ -349,7 +357,7 @@ export default function CheckoutPage() {
                     setEditingAddress(address);
                     setShowAddressForm(true);
                   }}
-                  onDelete={deleteAddress}
+                  onDelete={(address) => deleteAddress(address.id)}
                   onAddNew={() => setShowAddressForm(true)}
                   loading={addressLoading}
                 />
